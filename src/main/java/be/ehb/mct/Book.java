@@ -3,7 +3,7 @@ package be.ehb.mct;
 public class Book {
 
     private String title;
-    public double price; //public for reductions??? maybe not immutable
+    private double price; //public for reductions??? maybe not immutable
     private Author author;
     private int isbn;
     private int totalPages;

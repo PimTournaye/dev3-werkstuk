@@ -1,2 +1,3 @@
 rootProject.name = 'Werkstuk'
+include 'test'
 
