@@ -5,15 +5,17 @@ import java.util.Objects;
 public final class Book {
 
     private final String title;
-    private double price; //public for reductions??? maybe not immutable
+    private double price;
     private final Author author;
     private final int isbn;
     private final int totalPages;
     private final Genre genres;
     private final String language;
 
-    public Book(String title, double price, Author author, int isbn, int totalPages, Genre genres, String language) {
+    public Book(String title, double price, Author author, int isbn, int totalPages, Genre genres, String language) throws IllegalArgumentException{
+        if (title == null) throw new IllegalArgumentException("Title needs to a be string");
         this.title = title;
+        if (price == 0 || price<0) throw new IllegalArgumentException("Price must be higher than 0");
         this.price = price;
         this.author = author;
         this.isbn = isbn;
@@ -24,7 +26,8 @@ public final class Book {
 
     public double getPrice() { return price; }
 
-    public void setPrice(double price) {
+    public void setPrice(double price) throws IllegalArgumentException {
+        if (price == 0  )
         this.price = price;
     }
 
@@ -52,9 +55,8 @@ public final class Book {
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, price, author, totalPages, genres);
+        return Objects.hash(title, price, author, isbn, totalPages, genres, language);
     }
-
 
     @Override
     public String toString() {
