@@ -38,6 +38,10 @@ public final class Book {
         return title;
     }
 
+    public int getIsbn() { return isbn; }
+
+    public String getLanguage() { return language; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
