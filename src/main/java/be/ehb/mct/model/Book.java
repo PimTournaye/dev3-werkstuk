@@ -7,7 +7,7 @@ public final class Book {
     private final String title;
     private double price;
     private final Author author;
-    private final int isbn;
+    private int isbn;
     private final int totalPages;
     private final Genre genres;
     private final String language;
@@ -45,6 +45,10 @@ public final class Book {
 
     public String getLanguage() { return language; }
 
+    public void setid(int id) { //TODO: hide id?
+        if (this.isbn == -1) this.isbn = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -70,6 +74,7 @@ public final class Book {
                 ", language='" + language + '\'' +
                 '}';
     }
+
 }
 
 

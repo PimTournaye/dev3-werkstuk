@@ -12,16 +12,15 @@ import java.util.List;
 public class BookRepository {
 
     @Override
-    public List<Book> getStudents(String nameFilter, boolean caseSensitive) {
-        if(nameFilter == null) nameFilter = "";
-        nameFilter = nameFilter.trim();
+    public List<Book> getBooks(String titleFilter) {
+        if(titleFilter == null) titleFilter = "";
+        titleFilter = titleFilter.trim();
         List<Book> books = new ArrayList<>();
-        String SQL_SELECT_STUDENTS = "select * from students where concat(first_name, ' ', last_name) like concat('%',?,'%')";
-        if(caseSensitive) SQL_SELECT_STUDENTS = "select * from students where concat(first_name, ' ', last_name) like binary concat('%',?,'%')";
+        String SQL_SELECT_BOOKS = "SELECT * FROM BOOKS WHERE CONCAT(title) LIKE CONCAT('%')";
         try(Connection con = SQLConnection.getConnection();
-            PreparedStatement stmt = con.prepareStatement(SQL_SELECT_STUDENTS)) {
+            PreparedStatement stmt = con.prepareStatement(SQL_SELECT_BOOKS)) {
 
-            stmt.setString(1, nameFilter);
+            stmt.setString(1, titleFilter);
 
             try(ResultSet rs = stmt.executeQuery()) {
                 while (rs.next())
@@ -35,11 +34,11 @@ public class BookRepository {
     }
 
     @Override
-    public Book getStudent(int id) {
+    public Book getBook(int id) {
         Book book = null;
-        final String SQL_SELECT_STUDENT = "select * from students where id = ?";
+        final String SQL_SELECT_BOOK = "SELECT * FROM books WHERE id = ?";
         try(Connection con = SQLConnection.getConnection();
-            PreparedStatement stmt = con.prepareStatement(SQL_SELECT_STUDENT)) {
+            PreparedStatement stmt = con.prepareStatement(SQL_SELECT_BOOK)) {
 
             stmt.setInt(1, id);
 
@@ -55,14 +54,13 @@ public class BookRepository {
     }
 
     @Override
-    public void removeStudent(Book book) {
-        final String SQL_DELETE_STUDENT = "DELETE FROM books WHERE id = ?";
+    public void removeBook(Book book) {
+        final String SQL_DELETE_BOOK = "DELETE FROM books WHERE id = ?";
         try(Connection con = SQLConnection.getConnection();
-            PreparedStatement stmt = con.prepareStatement(SQL_DELETE_STUDENT)) {
+            PreparedStatement stmt = con.prepareStatement(SQL_DELETE_BOOK)) {
 
             stmt.setInt(1, book.getIsbn());
             int affectedRows = stmt.executeUpdate();
-            //System.out.println(affectedRows);
 
         } catch(SQLException e) {
             System.err.println(e);
@@ -70,20 +68,19 @@ public class BookRepository {
     }
 
     @Override //TODO: THIS
-    public void addStudent(Book book) {
-        final String SQL_INSERT_STUDENT = "insert into students(first_name, last_name, birthday, gender, address) values(?, ?, ?, ?, ?)";
+    public void addBook(Book book) {
+        final String SQL_INSERT_BOOK = "INSERT INTO books(`id`, `title`,`price`,`author_id`,`totalPages`,`lang`,`genres`) VALUES (?,?,? ,? ,?,?,?);";
         try(Connection con = SQLConnection.getConnection();
-            //PreparedStatement stmt = con.prepareStatement(SQL_INSERT_STUDENT, new String[] {"id", "created"})) {
-            PreparedStatement stmt = con.prepareStatement(SQL_INSERT_STUDENT, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            PreparedStatement stmt = con.prepareStatement(SQL_INSERT_BOOK, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-            if(book.getAddress() != null)
-                Repositories.getAddressRepository().addAddress(book.getAddress());
-            student2PreparedStatement(student, stmt);
+            if(book.getBook() != null)
+                Repositories.getBookRepository().addBook(book.getBook());
+            bookPreparedStatement(book, stmt);
 
             int affectedRows = stmt.executeUpdate();
             //System.out.println(affectedRows);
             try(ResultSet rsKey = stmt.getGeneratedKeys()) {
-                if (rsKey.next()) student.setId(rsKey.getInt(1));
+                if (rsKey.next()) book.setId(rsKey.getInt(1));
             }
 
         } catch (SQLException e) {
@@ -110,9 +107,9 @@ public class BookRepository {
         Genre genre = (Genre) rs.getObject("genre");
         String language = rs.getString("language");
 
-        Author author = Repositories.getAddressRepository().getAddress(rs.getInt("address"));
+        Author author = Repositories.getAuthorRepository().getAuthor(rs.getInt("address"));
         Book book = new Book(title, price, author, isbn, totalPages, genre, language);
-        student.setAddress(address);
-        return student;
+        book.setAuthor(author);
+        return book;
     }
 }

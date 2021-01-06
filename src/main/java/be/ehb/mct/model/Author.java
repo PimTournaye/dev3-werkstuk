@@ -1,20 +1,29 @@
 package be.ehb.mct.model;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 
 public class Author {
 
+    private final int book_id;
+    private int author_id;
     private final String name;
     private final String firstName;
-    private final LocalDate birthdate;
+    private final Date birthdate;
 
-    public Author(String name, String firstName, LocalDate birthdate){
+    public Author(int book_id, int author_id, String name, String firstName, Date birthdate){
+        this.book_id = book_id;
+        this.author_id = author_id;
         if (!(firstName instanceof String) || !(name instanceof String) ) throw new IllegalArgumentException("Name needs to be made up of strings");
         this.name = name;
         this.firstName = firstName;
         this.birthdate = birthdate;
     }
+
+    public int getBook_id() { return book_id; }
+
+    public int getAuthor_id() { return author_id; }
 
     public String getName() {
         return name;
@@ -24,7 +33,7 @@ public class Author {
         return firstName;
     }
 
-    public LocalDate getBirthdate() {
+    public Date getBirthdate() {
         return birthdate;
     }
 
@@ -39,5 +48,10 @@ public class Author {
     @Override
     public int hashCode() {
         return Objects.hash(name, firstName, birthdate);
+    }
+
+
+    public void setAuthor_id(int id) { //TODO: hide id?
+        if (this.author_id == -1) this.author_id = id;
     }
 }

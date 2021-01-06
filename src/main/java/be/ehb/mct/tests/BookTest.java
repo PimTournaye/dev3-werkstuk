@@ -10,7 +10,7 @@ import java.time.LocalDate;
 class BookTest {
 
     LocalDate date1 = LocalDate.of(1967, 1, 13);
-    Author author1 = new Author("Dolce", "Gusto", LocalDate.of(1956, 12, 3));
+    Author author1 = new Author(book_id, author_id, "Dolce", "Gusto", LocalDate.of(1956, 12, 3));
 
     @Test
     void createBook() {
