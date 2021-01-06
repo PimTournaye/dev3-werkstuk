@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookRepository {
+public class BookRepository implements BookInterface{
 
     @Override
     public List<Book> getBooks(String titleFilter) {
@@ -44,7 +44,7 @@ public class BookRepository {
 
             try(ResultSet rs = stmt.executeQuery()) {
                 if (rs.next())
-                    book = resultsSetBook(rs);
+                    book = resultsSetBooks(rs);
             }
 
         } catch(SQLException e) {
@@ -73,12 +73,10 @@ public class BookRepository {
         try(Connection con = SQLConnection.getConnection();
             PreparedStatement stmt = con.prepareStatement(SQL_INSERT_BOOK, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-            if(book.getBook() != null)
-                Repositories.getBookRepository().addBook(book.getBook());
+            if(book.getAuthor() != null)
+                Repositories.getAuthorRepository().addAuthor(book.getAuthor());
             bookPreparedStatement(book, stmt);
 
-            int affectedRows = stmt.executeUpdate();
-            //System.out.println(affectedRows);
             try(ResultSet rsKey = stmt.getGeneratedKeys()) {
                 if (rsKey.next()) book.setId(rsKey.getInt(1));
             }

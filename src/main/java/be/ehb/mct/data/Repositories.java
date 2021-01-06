@@ -1,7 +1,6 @@
 package be.ehb.mct.data;
 
 public class Repositories {
-    //private static final StudentRepository STUDENT_REPO = new InMemoryStudentsRepository();
     private static final BookRepository BOOKS_REPO = new BookRepository();
     private static final AuthorRepository AUTHOR_REPO = new AuthorRepository();
 

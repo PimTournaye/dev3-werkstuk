@@ -6,7 +6,7 @@ public final class Book {
 
     private final String title;
     private double price;
-    private final Author author;
+    private Author author;
     private int isbn;
     private final int totalPages;
     private final Genre genres;
@@ -47,6 +47,14 @@ public final class Book {
 
     public void setid(int id) { //TODO: hide id?
         if (this.isbn == -1) this.isbn = id;
+    }
+
+    public void setId(int isbn) {
+        this.isbn = isbn;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
     @Override

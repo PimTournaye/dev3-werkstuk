@@ -5,15 +5,11 @@ import be.ehb.mct.model.Author;
 import java.sql.*;
 import java.util.List;
 
-public class AuthorRepository implements RepositoryInterface {
-    @Override
-    public List<Author> getAuthor(String nameFilter) {
-        throw new UnsupportedOperationException();
-    }
+public class AuthorRepository implements AuthorInterface {
 
     @Override
-    public List<Author> getAddresses(String nameFilter) {
-        return null;
+    public List<Author> getAuthors(String nameFilter) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -46,7 +42,7 @@ public class AuthorRepository implements RepositoryInterface {
             //System.out.println(affectedRows);
 
         } catch(SQLException e) {
-            System.err.println(e + "\n while trying to remove " + author);
+            System.err.println(e + "While trying to remove " + author);
         }
     }
 

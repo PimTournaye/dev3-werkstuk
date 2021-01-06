@@ -5,12 +5,13 @@ import be.ehb.mct.model.Book;
 import be.ehb.mct.model.Genre;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Time;
 import java.time.LocalDate;
+import java.util.Date;
 
 class BookTest {
 
-    LocalDate date1 = LocalDate.of(1967, 1, 13);
-    Author author1 = new Author(book_id, author_id, "Dolce", "Gusto", LocalDate.of(1956, 12, 3));
+    Author author1 = new Author(1, 2, "Dolce", "Gusto", new Date(1923, 12, 5));
 
     @Test
     void createBook() {
