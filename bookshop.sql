@@ -21,7 +21,7 @@ price INTEGER  NOT NULL,
 author_id INTEGER NOT NULL,
 totalPages INTEGER  NOT NULL,
 lang VARCHAR(20) NOT NULL,
-genres ENUM('THRILLER',
+genre ENUM('THRILLER',
            'ADVENTURE',
            'ROMANCE',
            'COMEDY',
@@ -36,13 +36,13 @@ FOREIGN KEY (author_id) REFERENCES authors(id)
 
 
 
-INSERT INTO `authors` (`id`, `firstName`, `lastName`, `birthdate`) VALUES (1, 'Neil','Gaiman',1995-11-3);
-INSERT INTO `authors` (`id`, `firstName`, `lastName`, `birthdate`) VALUES  (2, 'Terry', "Pratchett", 1970-3-25);
-INSERT INTO `authors` (`id`, `firstName`, `lastName`, `birthdate`) VALUES (3,"David", "Liebman", 1946-6-7);
+INSERT INTO `authors` (`id`, `firstName`, `lastName`, `birthdate`) VALUES (1, 'Neil','Gaiman',"1995-11-3");
+INSERT INTO `authors` (`id`, `firstName`, `lastName`, `birthdate`) VALUES  (2, 'Terry', "Pratchett", "1970-3-25");
+INSERT INTO `authors` (`id`, `firstName`, `lastName`, `birthdate`) VALUES (3,"David", "Liebman", "1946-6-7");
 
-INSERT INTO books(`id`, `title`,`price`,`author_id`,`totalPages`,`lang`,`genres`) VALUES (1,'Neverwhere',20 ,1 ,433,'English','ADVENTURE');
-INSERT INTO books(`id`, `title`,`price`,`author_id`,`totalPages`,`lang`,`genres`) VALUES (2,'Equal Rites',20 ,2 ,264,'English','COMEDY');
-INSERT INTO books(`id`, `title`,`price`,`author_id`,`totalPages`,`lang`,`genres`) VALUES (3,'A Chromatic Approach to Jazz Harmony and Melody',40 ,3 ,244,'English','NON_FICTION');
+INSERT INTO books(`id`, `title`,`price`,`author_id`,`totalPages`,`lang`,`genre`) VALUES (1,'Neverwhere',20 ,1 ,433,'English','ADVENTURE');
+INSERT INTO books(`id`, `title`,`price`,`author_id`,`totalPages`,`lang`,`genre`) VALUES (2,'Equal Rites',20 ,2 ,264,'English','COMEDY');
+INSERT INTO books(`id`, `title`,`price`,`author_id`,`totalPages`,`lang`,`genre`) VALUES (3,'A Chromatic Approach to Jazz Harmony and Melody',40 ,3 ,244,'English','NON_FICTION');
 
-INSERT INTO books(`id`, `title`,`price`,`author_id`,`totalPages`,`lang`,`genres`) VALUES (4,'Neverwhere',20,1,433,'English','ADVENTURE');
+INSERT INTO books(`id`, `title`,`price`,`author_id`,`totalPages`,`lang`,`genre`) VALUES (4,'Neverwhere',20,1,433,'English','ADVENTURE');
 

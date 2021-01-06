@@ -31,11 +31,10 @@ public final class Book {
         this.price = price;
     }
 
-    public Author getAuthor() { return author; }
 
     public int getTotalPages() { return totalPages; }
 
-    public Genre getGenres() { return genres; }
+    public Genre getGenre() { return genres; }
 
     public String getTitle() {
         return title;
@@ -62,7 +61,7 @@ public final class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return Double.compare(book.price, price) == 0 && totalPages == book.totalPages && title.equals(book.title) && author.equals(book.author) && genres == book.genres;
+        return Double.compare(book.price, price) == 0 && author == book.author && isbn == book.isbn && totalPages == book.totalPages && Objects.equals(title, book.title) && genres == book.genres && Objects.equals(language, book.language);
     }
 
     @Override
@@ -83,6 +82,9 @@ public final class Book {
                 '}';
     }
 
+    public Author getAuthor() {
+        return this.author;
+    }
 }
 
 

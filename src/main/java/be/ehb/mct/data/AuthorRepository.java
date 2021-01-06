@@ -3,6 +3,7 @@ package be.ehb.mct.data;
 import be.ehb.mct.model.Author;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.List;
 
 public class AuthorRepository implements AuthorInterface {
@@ -48,14 +49,14 @@ public class AuthorRepository implements AuthorInterface {
 
     @Override
     public void addAuthor(Author author) {
-        final String SQL_INSERT_AUTHOR = "INSERT INTO `authors` (`book_id`, `id`, `firstName`, `lastName`, `birthdate`) VALUES (?, ?, ?,?,?);";
+        final String SQL_INSERT_AUTHOR = "INSERT INTO `authors` (`id`, `firstName`, `lastName`, `birthdate`) VALUES (?,?,?,?);";
         try(Connection con = SQLConnection.getConnection();
             PreparedStatement stmt = con.prepareStatement(SQL_INSERT_AUTHOR, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             author2PreparedStatement(author, stmt);
+            stmt.execute();
+            System.out.println("Insert done.");
 
-            int affectedRows = stmt.executeUpdate();
-            //System.out.println(affectedRows);
             try(ResultSet rsKey = stmt.getGeneratedKeys()) {
                 if (rsKey.next()) author.setAuthor_id(rsKey.getInt(1));
             }
@@ -66,21 +67,19 @@ public class AuthorRepository implements AuthorInterface {
     }
 
     private void author2PreparedStatement(Author author, PreparedStatement stmt) throws SQLException {
-        stmt.setInt(1,author.getBook_id());
-        stmt.setInt(2,author.getAuthor_id());
-        stmt.setString(3, author.getFirstName());
-        stmt.setString(4, author.getName());
-        stmt.setObject( 5 , author.getBirthdate());
+        stmt.setInt(1,author.getAuthor_id());
+        stmt.setString(2, author.getFirstName());
+        stmt.setString(3, author.getName());
+        stmt.setDate( 4 , Date.valueOf(author.getBirthdate()));
 
     }
 
     private Author resultsSet2Author(ResultSet rs) throws SQLException {
-        int book_id = rs.getInt("book_id");
-        int author_id = rs.getInt("number");
+        int author_id = rs.getInt("id");
         String firstName = rs.getString("firstName");
         String lastName = rs.getString("lastName");
-        Date birth = rs.getDate("birthdate");
-        return new Author(book_id, author_id, firstName, lastName, birth);
+        LocalDate birth = rs.getDate("birthdate").toLocalDate();
+        return new Author(author_id, firstName, lastName, birth);
     }
 }
 

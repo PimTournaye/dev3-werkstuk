@@ -11,7 +11,7 @@ import java.util.Date;
 
 class BookTest {
 
-    Author author1 = new Author(1, 2, "Dolce", "Gusto", new Date(1923, 12, 5));
+    Author author1 = new Author (2, "Dolce", "Gusto", LocalDate.of(1923, 12, 5));
 
     @Test
     void createBook() {

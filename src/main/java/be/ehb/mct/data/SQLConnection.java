@@ -20,8 +20,8 @@ public final class SQLConnection {
     }
 
     public static Connection getConnection() throws SQLException {
+        System.out.println("CONNECTED");
         return DriverManager.getConnection(URL, USER, PWD);
-        
     }
 
     public static void resetDatabase() {

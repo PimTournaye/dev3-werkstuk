@@ -6,14 +6,12 @@ import java.util.Objects;
 
 public class Author {
 
-    private final int book_id;
     private int author_id;
     private final String name;
     private final String firstName;
-    private final Date birthdate;
+    private final LocalDate birthdate;
 
-    public Author(int book_id, int author_id, String name, String firstName, Date birthdate){
-        this.book_id = book_id;
+    public Author(int author_id, String name, String firstName, LocalDate birthdate){
         this.author_id = author_id;
         if (!(firstName instanceof String) || !(name instanceof String) ) throw new IllegalArgumentException("Name needs to be made up of strings");
         this.name = name;
@@ -21,7 +19,6 @@ public class Author {
         this.birthdate = birthdate;
     }
 
-    public int getBook_id() { return book_id; }
 
     public int getAuthor_id() { return author_id; }
 
@@ -33,8 +30,12 @@ public class Author {
         return firstName;
     }
 
-    public Date getBirthdate() {
+    public LocalDate getBirthdate() {
         return birthdate;
+    }
+
+    public void setAuthor_id(int id) { //TODO: hide id?
+        if (this.author_id == -1) this.author_id = id;
     }
 
     @Override
@@ -42,16 +43,21 @@ public class Author {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Author author = (Author) o;
-        return name.equals(author.name) && firstName.equals(author.firstName) && birthdate.equals(author.birthdate);
+        return author_id == author.author_id && Objects.equals(name, author.name) && Objects.equals(firstName, author.firstName) && Objects.equals(birthdate, author.birthdate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, firstName, birthdate);
+        return Objects.hash(author_id, name, firstName, birthdate);
     }
 
-
-    public void setAuthor_id(int id) { //TODO: hide id?
-        if (this.author_id == -1) this.author_id = id;
+    @Override
+    public String toString() {
+        return "Author{" +
+                "author_id=" + author_id +
+                ", name='" + name + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", birthdate=" + birthdate +
+                '}';
     }
 }
