@@ -14,5 +14,7 @@ public interface AuthorInterface {
     void removeAuthor(Author author) throws SQLException;
 
 
+    void addAuthor(int author);
+
     void addAuthor(Author author);
 }

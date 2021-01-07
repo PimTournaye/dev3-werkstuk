@@ -16,10 +16,10 @@ public class BookRepository implements BookInterface{
         if(titleFilter == null) titleFilter = "";
         titleFilter = titleFilter.trim();
         List<Book> books = new ArrayList<>();
-        String SQL_SELECT_BOOKS = "SELECT * FROM BOOKS WHERE CONCAT(title) LIKE CONCAT('%')";
+        String SQL_SELECT_BOOKS = "SELECT * FROM BOOKS WHERE CONCAT(title, genre) LIKE CONCAT('%','%')";
         try(Connection con = SQLConnection.getConnection();
             PreparedStatement stmt = con.prepareStatement(SQL_SELECT_BOOKS)) {
-
+            System.out.println("Trying to get books");
             stmt.setString(1, titleFilter);
 
             try(ResultSet rs = stmt.executeQuery()) {
@@ -41,7 +41,6 @@ public class BookRepository implements BookInterface{
             PreparedStatement stmt = con.prepareStatement(SQL_SELECT_BOOK)) {
 
             stmt.setInt(1, id);
-
             try(ResultSet rs = stmt.executeQuery()) {
                 if (rs.next())
                     book = resultsSetBooks(rs);
@@ -61,7 +60,7 @@ public class BookRepository implements BookInterface{
 
             stmt.setInt(1, book.getIsbn());
             int affectedRows = stmt.executeUpdate();
-
+            System.out.println(affectedRows);
         } catch(SQLException e) {
             System.err.println(e);
         }
@@ -69,13 +68,14 @@ public class BookRepository implements BookInterface{
 
     @Override //TODO: THIS
     public void addBook(Book book) {
-        final String SQL_INSERT_BOOK = "INSERT INTO books(`id`, `title`,`price`,`author_id`,`totalPages`,`lang`,`genre`) VALUES (?,?,?,?,?,?,?);";
+        final String SQL_INSERT_BOOK = "INSERT INTO books(`id`, `title` ,`price` ,`author_id` ,`totalPages` ,`lang` ,`genre`) VALUES (?,?,?,?,?,?,?);";
         try(Connection con = SQLConnection.getConnection();
             PreparedStatement stmt = con.prepareStatement(SQL_INSERT_BOOK, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-            if(book.getAuthor() != null)
-                Repositories.getAuthorRepository().addAuthor(book.getAuthor());
+            Repositories.getAuthorRepository().addAuthor(book.getAuthor());
             bookPreparedStatement(book, stmt);
+            stmt.executeUpdate();
+            System.out.println("Insert done.");
 
             try(ResultSet rsKey = stmt.getGeneratedKeys()) {
                 if (rsKey.next()) book.setId(rsKey.getInt(1));
@@ -87,27 +87,29 @@ public class BookRepository implements BookInterface{
     }
 
     private void bookPreparedStatement(Book book, PreparedStatement stmt) throws SQLException {
-        stmt.setString(1, book.getTitle());
-        stmt.setDouble(2, book.getPrice());
-        stmt.setObject(3, book.getAuthor());
-        stmt.setInt(4, book.getIsbn());
+        stmt.setInt(1, book.getIsbn());
+        stmt.setString(2, book.getTitle());
+        stmt.setDouble(3, book.getPrice());
+        stmt.setInt(4, book.getAuthor());
         stmt.setInt(5, book.getTotalPages());
-        stmt.setString(6, book.getGenre().toString());
-        stmt.setString(7, book.getLanguage());
+        stmt.setString(6, book.getLanguage());
+        stmt.setString(7, book.getGenre());
     }
 
     private Book resultsSetBooks(ResultSet rs) throws SQLException {
+        int isbn = rs.getInt("id");
         String title = rs.getString("title");
         double price = rs.getDouble("price");
-        int bookAuthor = rs.getInt("author_id"); //TODO: mss naam van de author met string literals en die dan selecten
-        int isbn = rs.getInt("id");
+        int author_id = rs.getInt("author_id");
         int totalPages = rs.getInt("totalPages");
-        Genre genre = (Genre) rs.getObject("genre");
+        Genre genre = Genre.valueOf(rs.getString("genre"));
         String language = rs.getString("lang");
 
-        Author author = Repositories.getAuthorRepository().getAuthor(rs.getInt("address"));
-        Book book = new Book(title, price, author, isbn, totalPages, genre, language);
-        book.setAuthor(author);
+        Author author = Repositories.getAuthorRepository().getAuthor(rs.getInt("author_id"));
+        int author_selectedID = author.getAuthor_id();
+
+        Book book = new Book(isbn,title, price, author_id, totalPages, genre, language);
+        book.setAuthor(author_selectedID);
         return book;
     }
 }

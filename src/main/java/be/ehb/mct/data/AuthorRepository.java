@@ -16,7 +16,7 @@ public class AuthorRepository implements AuthorInterface {
     @Override
     public Author getAuthor(int id) {
         Author author = null;
-        final String SQL_SELECT_AUTHOR = "SELECT * FROM author WHERE id = ?";
+        final String SQL_SELECT_AUTHOR = "SELECT * FROM authors WHERE id = ?";
         try(Connection con = SQLConnection.getConnection();
             PreparedStatement stmt = con.prepareStatement(SQL_SELECT_AUTHOR)) {
 
@@ -46,6 +46,12 @@ public class AuthorRepository implements AuthorInterface {
             System.err.println(e + "While trying to remove " + author);
         }
     }
+
+    @Override
+    public void addAuthor(int author) {
+
+    }
+
 
     @Override
     public void addAuthor(Author author) {
