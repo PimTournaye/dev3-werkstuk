@@ -1,5 +1,7 @@
 package be.ehb.mct.model;
 
+import be.ehb.mct.data.Repositories;
+
 import java.util.Objects;
 
 public final class Book {
@@ -63,6 +65,10 @@ public final class Book {
                 ", genres=" + genres +
                 ", language='" + language + '\'' +
                 '}';
+    }
+
+    public String toFancyString(){
+        return title + " written by " + Repositories.getAuthorRepository().getAuthor(author_id).getFullName() + " in " + language + ", at a price of " + price + "EUR.";
     }
 
     @Override

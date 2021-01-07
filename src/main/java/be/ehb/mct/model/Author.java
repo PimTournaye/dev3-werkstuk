@@ -18,7 +18,9 @@ public class Author {
         this.firstName = firstName;
         this.birthdate = birthdate;
     }
-
+    public String getFullName(){
+        return name + " " + firstName;
+    }
 
     public int getAuthor_id() { return author_id; }
 

@@ -29,13 +29,27 @@ public class CLIApplication {
         System.out.println(author_selected_book.toString());
 
 
-        System.out.println("--------------- DELETE BOOK ---------------");
+        System.out.println("------------------- TRY TO DELETE AUTHOR ---------------");
+        try {
+            //Repositories.getAuthorRepository().removeAuthor(author);
+        }
+        catch(Exception e) {
+            System.err.println("Can't delete author while books are still in system.");
+        }
 
+        System.out.println("--------------- DELETE BOOK ---------------");
+        Repositories.getBookRepository().removeBook(book);
+
+        System.out.println("------------- GET NEVERWHERE BOOKS -------------");
+        List<Book> neverwhere = Repositories.getBookRepository().getBooks("Never");
+        for(Book b: neverwhere) {
+            System.out.println(b);;
+        }
 
         System.out.println("------------- GET ALL BOOKS -------------");
         List<Book> books = Repositories.getBookRepository().getBooks(null);
         for(Book b: books) {
-            System.out.println(b);
+            System.out.println(b.toFancyString());;
         }
 
         SQLConnection.resetDatabase();

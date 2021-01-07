@@ -40,10 +40,10 @@ public class AuthorRepository implements AuthorInterface {
 
             stmt.setInt(1, author.getAuthor_id());
             int affectedRows = stmt.executeUpdate();
-            //System.out.println(affectedRows);
+            System.out.println(affectedRows);
 
         } catch(SQLException e) {
-            System.err.println(e + "While trying to remove " + author);
+            System.err.println(e + " while trying to remove " + author);
         }
     }
 

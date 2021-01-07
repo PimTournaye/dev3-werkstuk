@@ -16,10 +16,11 @@ public class BookRepository implements BookInterface{
         if(titleFilter == null) titleFilter = "";
         titleFilter = titleFilter.trim();
         List<Book> books = new ArrayList<>();
-        String SQL_SELECT_BOOKS = "SELECT * FROM BOOKS WHERE CONCAT(title, genre) LIKE CONCAT('%','%')";
+        String SQL_SELECT_BOOKS = "SELECT * FROM books WHERE title LIKE CONCAT('%', ?, '%')";
         try(Connection con = SQLConnection.getConnection();
             PreparedStatement stmt = con.prepareStatement(SQL_SELECT_BOOKS)) {
             System.out.println("Trying to get books");
+
             stmt.setString(1, titleFilter);
 
             try(ResultSet rs = stmt.executeQuery()) {
